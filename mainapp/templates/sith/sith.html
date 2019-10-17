@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>{{ sith.name }}</title>{% endblock title %}
+
+{% block content %}
+
+    <div>
+        {% for recruit in recruits %}
+            <div>
+                <a href="{{ recruit.get_absolute_url }}">{{ recruit.name }}({{ recruit.email }})</a>
+                <p>Name: {{ recruit.name }} | Age: {{ recruit.age }} | Planet: {{ recruit.planet }}</p>
+                {% if recruit.answers.all %}
+                    {% for answer in recruit.answers.all %}
+                        <p>{{ answer.question }} :  {{ answer.value }}</p>
+                    {% endfor %}
+                {% endif %}
+                {% if recruit.recruit_siths.all %}
+                    <p>Одобрен вами</p>
+                {% else %}
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="number" hidden='hidden' value="{{ recruit.id }}" name="recruit_id"
+                        id="{{ recruit.id }}">
+                    {{ form.approved }}
+                    <button type="submit">{{ form.approved.help_text }}</button>
+                </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock content %}

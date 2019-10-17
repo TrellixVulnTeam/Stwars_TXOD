@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>{{ recruit.name }}</title>{% endblock title %}
+
+{% block content %}
+<div>
+    ID:{{ recruit.id }}
+    NAME:{{ recruit.name }}
+    {% if recruit.finished %}
+        <p>Спасибо за прохождение теста</p>
+    {% else %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% for answer in answers %}
+                <label for="{{ answer.id }}">{{ answer.question }}</label>
+                <input type="checkbox" name="{{ answer.id }}" id="{{ answer.id }}" {% if answer.value %}checked{% endif %}>
+            {% endfor %}
+            <button type="submit">Отправить ответы</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock content %}

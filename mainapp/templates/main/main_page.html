@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>Main Page</title>{% endblock title %}
+
+{% block content %}
+
+<div class="main-choice">
+    <div>
+        <p data-href="ForSith" onclick="ChangeTab(this);">Для ситхов</p>
+        <div id='ForSith' class="tab hide">
+            {% for sith in siths %}
+            <a href="{{ sith.get_absolute_url }}">{{ sith.name }} - {{ sith.planet }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        <p data-href="ForRecruit" onclick="ChangeTab(this);">Для рекрутов</p>
+        <div id='ForRecruit' class="tab {% if warning %}show{% else %}hide{% endif %}">
+        
+            <form action="" method="POST" class="recruite-form">
+                {% csrf_token %}
+                {{ form.name }}
+                {{ form.age }}
+                {{ form.planet }}
+                {{ form.email }}
+                {% if warning %}{{ warning }}{% endif %}
+                <button type="submit">ОТПРАВИТЬ</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
